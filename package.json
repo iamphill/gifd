@@ -1,0 +1,27 @@
+{
+  "name": "gifme",
+  "version": "1.0.0",
+  "dependencies": {
+    "copy-paste": "^0.3.0",
+    "asciimo": "^0.3.1"
+  },
+  "bin": {
+    "gifme": "bin/gifme.js"
+  },
+  "description": "Get a random gif for how you fealing!",
+  "main": "gifme.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "gif",
+    "gifme"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iamphill/gifme.git"
+  },
+  "author": "Phil Hughes",
+  "license": "MIT"
+}
