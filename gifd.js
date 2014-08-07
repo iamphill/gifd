@@ -12,7 +12,7 @@
 
   copypaste = require('copy-paste');
 
-  key = "rX7kbMzkGu7WJwvG";
+  key = "VAa2AVeWXThiu2qD";
 
   url = "http://api.gifme.io/v1/gifs/random?key=" + key;
 
