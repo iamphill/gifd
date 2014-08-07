@@ -7,52 +7,73 @@ copypaste = require 'copy-paste'
 key = "dc6zaTOxFJmzC"
 url = "http://api.giphy.com/v1/gifs/random?api_key=#{key}"
 
-rl = readline.createInterface
-  input: process.stdin,
-  output: process.stdout
+# Get arguments
+args = process.argv
 
-# Some random emotions
-feelings = [
-    "happy"
-    "sad"
-    "excited"
-    "angry"
-    "lazy"
-    "confused"
-    "bored"
-    "interested"
-]
+next = false
+feeling = ""
+# Get the arguments after gifme
+args.forEach (val) ->
+    if next is false
+        next = true if val.indexOf("gifme") >= 0
+    else
+        feeling = val
 
-# Get a random feeling
-feeling = feelings[Math.floor(Math.random() * feelings.length)]
+fetchGif = (callback) ->
+    http.get url, (res) ->
+        res.setEncoding 'utf8'
+        str = ""
+
+        res.on 'data', (chunk) ->
+            str += chunk
+
+        res.on 'end', ->
+            # Parse JSON
+            json = JSON.parse str
+            img = json.data.image_original_url
+
+            # Copy image url
+            copy img, ->
+                asciimo.write "Copied!", "banner3", (art) ->
+                    console.log "\n#{art.green}"
+
+                    if callback
+                        # Run callback
+                        callback()
 
 asciimo.write "gifME", "isometric2", (art) ->
     # Log art
     console.log art.green
 
-    rl.question "What are you feeling? eg. #{feeling} ", (a) ->
-        if !a
-            a = feeling
+    if feeling is ""
+        rl = readline.createInterface
+          input: process.stdin,
+          output: process.stdout
 
-        # Load up data
-        url = "#{url}&tag=#{a}"
+        # Some random emotions
+        feelings = [
+            "happy"
+            "sad"
+            "excited"
+            "angry"
+            "lazy"
+            "confused"
+            "bored"
+            "interested"
+        ]
 
-        http.get url, (res) ->
-            res.setEncoding 'utf8'
-            str = ""
+        # Get a random feeling
+        feeling = feelings[Math.floor(Math.random() * feelings.length)]
 
-            res.on 'data', (chunk) ->
-                str += chunk
+        rl.question "What are you feeling? eg. #{feeling} ", (a) ->
+            if !a
+                a = feeling
 
-            res.on 'end', ->
-                # Parse JSON
-                json = JSON.parse str
-                img = json.data.image_original_url
+            # Load up data
+            url = "#{url}&tag=#{a}"
 
-                # Copy image url
-                copy img, ->
-                    asciimo.write "Copied!", "banner3", (art) ->
-                        console.log "\n#{art.green}"
-
-                        # Close readline
-                        rl.close()
+            fetchGif ->
+                rl.close()
+    else
+        url = "#{url}&tag=#{feeling}"
+        fetchGif()
