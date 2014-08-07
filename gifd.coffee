@@ -4,8 +4,8 @@ asciimo = require('./node_modules/asciimo/lib/asciimo').Figlet
 colors = require('./node_modules/asciimo/lib/colors')
 copypaste = require 'copy-paste'
 
-key = "dc6zaTOxFJmzC"
-url = "http://api.giphy.com/v1/gifs/random?api_key=#{key}"
+key = "rX7kbMzkGu7WJwvG"
+url = "http://api.gifme.io/v1/gifs/random?key=#{key}"
 
 # Get arguments
 args = process.argv
@@ -15,7 +15,7 @@ feeling = ""
 # Get the arguments after gifme
 args.forEach (val) ->
     if next is false
-        next = true if val.indexOf("gifme") >= 0
+        next = true if val.indexOf("gifd") >= 0
     else
         feeling = val
 
@@ -30,7 +30,7 @@ fetchGif = (callback) ->
         res.on 'end', ->
             # Parse JSON
             json = JSON.parse str
-            img = json.data.image_original_url
+            img = json.gif.gif
 
             # Copy image url
             copy img, ->
@@ -41,7 +41,7 @@ fetchGif = (callback) ->
                         # Run callback
                         callback()
 
-asciimo.write "gifME", "isometric2", (art) ->
+asciimo.write "gifD", "isometric2", (art) ->
     # Log art
     console.log art.green
 
@@ -70,10 +70,10 @@ asciimo.write "gifME", "isometric2", (art) ->
                 a = feeling
 
             # Load up data
-            url = "#{url}&tag=#{a}"
+            url = "#{url}&term=#{a}"
 
             fetchGif ->
                 rl.close()
     else
-        url = "#{url}&tag=#{feeling}"
+        url = "#{url}&term=#{feeling}"
         fetchGif()

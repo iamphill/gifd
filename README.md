@@ -1,7 +1,7 @@
-# gifME
+# gifd
 
 ```
-npm install -g gifme
+npm install -g gifd
 ```
 
 Get a random gif for how you feeling!
@@ -12,5 +12,5 @@ It will give you different suggestions of possible feelings.
 You can also specify whatever you want straight away!
 
 ```
-gifme happy
+gifd happy
 ```
